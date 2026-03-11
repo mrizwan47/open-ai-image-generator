@@ -7,10 +7,28 @@ const ASPECT_RATIOS = [
 ];
 
 const QUALITY_OPTIONS = [
-  { label: "Low", value: "low", cost: "$0.005" },
-  { label: "Medium", value: "medium", cost: "$0.010" },
-  { label: "High", value: "high", cost: "$0.019" },
+  { label: "Low", value: "low" },
+  { label: "Medium", value: "medium" },
+  { label: "High", value: "high" },
 ];
+
+const PRICING = {
+  low: {
+    "1024x1024": 0.005,
+    "1024x1536": 0.006,
+    "1536x1024": 0.006,
+  },
+  medium: {
+    "1024x1024": 0.011,
+    "1024x1536": 0.015,
+    "1536x1024": 0.015,
+  },
+  high: {
+    "1024x1024": 0.036,
+    "1024x1536": 0.052,
+    "1536x1024": 0.052,
+  },
+};
 
 export default function App() {
   const [prompt, setPrompt] = useState("");
@@ -140,7 +158,12 @@ export default function App() {
                 >
                   <div className="flex flex-col items-center gap-0.5">
                     <span>{q.label}</span>
-                    <span className="opacity-60 text-[10px]">{q.cost}</span>
+                    <span className="opacity-60 text-[10px]">
+                      ${
+                        (PRICING[q.value]?.[size] ??
+                          PRICING[q.value]["1024x1024"]).toFixed(3)
+                      }
+                    </span>
                   </div>
                 </button>
               ))}
